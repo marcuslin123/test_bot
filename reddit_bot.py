@@ -19,7 +19,9 @@ def authenticate():
 def run_bot(reddit, comments_replied_to):
     print("Obtaining 25 comments. . .")
 
-    for comment in reddit.subreddit("dogs").comments(limit=25):
+    comments = reddit.subreddit("dogs").comments(limit=25)
+
+    for comment in comments:
         if "dog" in comment.body and comment.id not in comments_replied_to and comment.author != reddit.user.me():
             print("String with \"dog\" found in comment " + comment.id)
 
@@ -34,6 +36,7 @@ def run_bot(reddit, comments_replied_to):
             print("Replied to comment " + comment.id)
 
             comments_replied_to.append(comment.id)
+
             # Insert into the database
             conn = sqlite3.connect("comments_replied_to.db")
             cursor = conn.cursor()
